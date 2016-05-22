@@ -1,0 +1,29 @@
+{
+    "name": "codeskull/converter",
+    "bin": ["convert"],
+    "type": "library",
+    "require-dev": {
+        "phpunit/phpunit": "~5.3",
+        "squizlabs/php_codesniffer": "~2.6"
+    },
+    "require": {
+        "php": ">=5.6"
+    },
+    "authors": [
+        {
+            "name": "Cyril Sadovnik",
+            "email": "cyril.sadovnik@gmail.com"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "src/Convert.php",
+            "src/Decoders/IniDecoder.php",
+            "src/Decoders/JsonDecoder.php",
+            "src/Decoders/YmlDecoder.php",
+            "src/Encoders/IniEncoder.php",
+            "src/Encoders/JsonEncoder.php",
+            "src/Encoders/YmlEncoder.php"
+        ]
+    }
+}

@@ -1,0 +1,34 @@
+<?php
+
+/**
+ * A cli tool that helps convert xml, json and yaml beetween each other
+ */
+error_reporting(E_STRICT);
+
+define('ERROR_EXIT_CODE', 1);
+define('OK_EXIT_CODE', 1);
+
+require('./vendor/autoload.php');
+use function \Converter\Converter;
+
+if(count($argv) !== 3) {
+    $errorMessage = 'Error!';
+    if(count($argv) == 2) {
+        $errorMessage .= ' Not enouth arguments.';
+    } elseif(count($argv) > 3) {
+        $errorMessage .= ' Too many arguments.';
+    }
+    echo $errorMessage . PHP_EOL;
+    printUsage();
+    exit(1);
+}
+
+function printUsage()
+{
+    echo 'Usage example:' . PHP_EOL;
+    echo '      convert from.yml to.json' . PHP_EOL;
+}
+
+$converter = Converter();
+$exitCode = $converter($argv[1], $argv[2]);
+exit($exitCode);

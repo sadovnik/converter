@@ -9,7 +9,7 @@ define('ERROR_EXIT_CODE', 1);
 define('OK_EXIT_CODE', 1);
 
 require('./vendor/autoload.php');
-use function \Converter\Converter;
+use function Converter\Converter;
 
 if(count($argv) !== 3) {
     $errorMessage = 'Error!';

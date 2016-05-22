@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/codeskull/converter.svg?branch=master)](https://travis-ci.org/codeskull/converter)
+
 ## About
 A converter for config-related text formats. Supported formats:
 - json

@@ -120,7 +120,7 @@ function createConverter($input, $output)
         return true;
     };
 
-    $converter = function($action, ...$args) use ($convert, &$errors) {
+    $converter = function ($action, ...$args) use ($convert, &$errors) {
         switch ($action) {
             case 'convert':
                 return $convert();

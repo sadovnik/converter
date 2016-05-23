@@ -17,7 +17,7 @@
     ],
     "autoload": {
         "files": [
-            "src/Convert.php",
+            "src/Converter.php",
             "src/Decoders/IniDecoder.php",
             "src/Decoders/JsonDecoder.php",
             "src/Decoders/YmlDecoder.php",

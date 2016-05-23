@@ -10,13 +10,17 @@ use function Converter\Encoders\JsonEncoder;
 use function Converter\Encoders\YmlEncoder;
 
 /**
- * Does the thing
  * @param string $input path to the input file
  * @param string $output path to the output file
  * @return integer status
  */
-function Converter()
+function createConverter($input, $output)
 {
+    /**
+     * @var array
+     */
+    $errors = [];
+
     /**
      * @param string $path path to file
      * @return string normalized extension extracted from path
@@ -31,24 +35,28 @@ function Converter()
      * @param string $output path to the output file
      * @return boolean true if ok
      */
-    $validate = function ($input, $output) use ($getExtension) {
+    $validate = function () use ($getExtension, &$errors, $input, $output) {
+        $errors = [];
+
         // Validation
         if (!file_exists($input)) {
-            echo "Error! File not found: $input" . PHP_EOL;
+            $error = "Error! File not found: $input";
+            array_push($errors, $error);
             return false;
         }
 
-        array_map(function ($path) {
-            $ext = strtolower(pathinfo($path)['extension']);
+        foreach ([$input, $output] as $path) {
+            $ext = $getExtension($path);
             if (!in_array($ext, ['json', 'yml', 'ini'])) {
-                echo "Error! Unknown extension: $ext" . PHP_EOL;
-                echo 'Allowed extensions are json, yml and ini' . PHP_EOL;
+                $error = "Unknown extension: «{$ext}». Allowed extensions are json, yml and ini";
+                array_push($errors, $error);
                 return false;
             }
-        }, func_get_args());
+        }
 
         if ($getExtension($input) === $getExtension($output)) {
-            echo 'Error! Extensions shouldn\'t match!' . PHP_EOL;
+            $error = 'Error! Extensions shouldn\'t match!';
+            array_push($errors, $error);
             return false;
         }
 
@@ -90,7 +98,7 @@ function Converter()
      * @param string $output path to the output file
      * @return integer exit code
      */
-    $convert = function ($input, $output) use ($getEncoder, $getDecoder, $getExtension) {
+    $convertFile = function () use ($getEncoder, $getDecoder, $getExtension, $input, $output) {
         $inputFileContent = file_get_contents($input);
         $decoder = $getDecoder($getExtension($input));
         $arrayRepresentation = $decoder($inputFileContent);
@@ -99,14 +107,47 @@ function Converter()
         file_put_contents($output, $outputRepresentation);
     };
 
-    $converter = function ($input, $output) use ($validate, $convert) {
-        if (!$validate($input, $output)) {
-            return ERROR_EXIT_CODE;
+    /**
+     * Makes validation and converts
+     */
+    $convert = function () use ($validate, $convertFile, $input, $output) {
+        if (!$validate()) {
+            return false;
         }
-        $convert($input, $output);
-        echo 'Done!' . PHP_EOL;
-        return OK_EXIT_CODE;
+
+        $convertFile();
+
+        return true;
+    };
+
+    $converter = function($action, ...$args) use ($convert, &$errors) {
+        switch ($action) {
+            case 'convert':
+                return $convert();
+
+            case 'getErrors':
+                return $errors;
+
+            default:
+                die("Whoops! Looks like there's no «{$action}» method.");
+        }
     };
 
     return $converter;
+}
+
+/**
+ * @return boolean true if success
+ */
+function convert(callable $converter)
+{
+    return $converter('convert');
+}
+
+/**
+ * @return array of string errors
+ */
+function getErrors(callable $converter)
+{
+    return $converter('getErrors');
 }

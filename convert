@@ -10,7 +10,10 @@ define('ERROR_EXIT_CODE', 0);
 define('OK_EXIT_CODE', 1);
 
 require('./vendor/autoload.php');
-use function Converter\Converter;
+
+use function Converter\createConverter;
+use function Converter\convert;
+use function Converter\getErrors;
 
 if(count($argv) !== 3) {
     $errorMessage = 'Error!';
@@ -20,16 +23,22 @@ if(count($argv) !== 3) {
         $errorMessage .= ' Too many arguments.';
     }
     echo $errorMessage . PHP_EOL;
-    printUsage();
-    exit(1);
-}
-
-function printUsage()
-{
     echo 'Usage example:' . PHP_EOL;
     echo '      convert from.yml to.json' . PHP_EOL;
+    printUsage();
+    exit(ERROR_EXIT_CODE);
 }
 
-$converter = Converter();
-$exitCode = $converter($argv[1], $argv[2]);
-exit($exitCode);
+list($scriptName, $input, $output) = $argv;
+
+$converter = createConverter($input, $output);
+
+if(!convert($converter)) {
+    echo 'Error!' . PHP_EOL;
+    echo implode(PHP_EOL, getErrors($converter));
+    echo PHP_EOL;
+    exit(ERROR_EXIT_CODE);
+}
+
+echo 'Done!' . PHP_EOL;
+exit(OK_EXIT_CODE);

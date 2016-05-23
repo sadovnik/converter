@@ -9,7 +9,7 @@ A converter for config-related text formats. Supported formats:
 ## Install
 ```
 sudo git clone https://github.com/codeskull/converter /opt/converter # pull the repo
-ln -s /opt/converter/convert.sh /usr/local/bin/convert # link the binary
+ln -s /opt/converter/convert /usr/local/bin/convert # link the binary
 ```
 
 ## Usage example

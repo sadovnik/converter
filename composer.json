@@ -7,7 +7,9 @@
         "squizlabs/php_codesniffer": "~2.6"
     },
     "require": {
-        "php": ">=5.6"
+        "php": ">=5.6",
+        "symfony/yaml": "^3.0",
+        "mikey179/vfsStream": "^1.6"
     },
     "authors": [
         {
@@ -18,12 +20,12 @@
     "autoload": {
         "files": [
             "src/Converter.php",
-            "src/Decoders/IniDecoder.php",
-            "src/Decoders/JsonDecoder.php",
-            "src/Decoders/YmlDecoder.php",
-            "src/Encoders/IniEncoder.php",
-            "src/Encoders/JsonEncoder.php",
-            "src/Encoders/YmlEncoder.php"
+            "src/ConvertAction.php",
+            "src/Result.php",
+            "src/Utils.php",
+            "src/Coders/Ini.php",
+            "src/Coders/Json.php",
+            "src/Coders/Yaml.php"
         ]
     }
 }

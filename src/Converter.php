@@ -2,152 +2,74 @@
 
 namespace Converter;
 
-use function Converter\Decoders\IniDecoder;
-use function Converter\Decoders\JsonDecoder;
-use function Converter\Decoders\YmlDecoder;
-use function Converter\Encoders\IniEncoder;
-use function Converter\Encoders\JsonEncoder;
-use function Converter\Encoders\YmlEncoder;
+use Converter\Result;
+use Converter\Coders\Ini;
+use Converter\Coders\Json;
+use Converter\Coders\Yaml;
+use function Converter\Utils\getExtension;
 
 /**
- * @param string $input path to the input file
- * @param string $output path to the output file
- * @return integer status
+ * @return callable error result with unknown extention message
  */
-function createConverter($input, $output)
+function throwUnknownExtention($ext)
 {
-    /**
-     * @var array
-     */
-    $errors = [];
-
-    /**
-     * @param string $path path to file
-     * @return string normalized extension extracted from path
-     */
-    $getExtension = function ($path) {
-        return strtolower(pathinfo($path)['extension']);
-    };
-
-    /**
-     * Validates the paths provided by user
-     * @param string $input path to the input file
-     * @param string $output path to the output file
-     * @return boolean true if ok
-     */
-    $validate = function () use ($getExtension, &$errors, $input, $output) {
-        $errors = [];
-
-        // Validation
-        if (!file_exists($input)) {
-            $error = "Error! File not found: $input";
-            array_push($errors, $error);
-            return false;
-        }
-
-        foreach ([$input, $output] as $path) {
-            $ext = $getExtension($path);
-            if (!in_array($ext, ['json', 'yml', 'ini'])) {
-                $error = "Unknown extension: «{$ext}». Allowed extensions are json, yml and ini";
-                array_push($errors, $error);
-                return false;
-            }
-        }
-
-        if ($getExtension($input) === $getExtension($output)) {
-            $error = 'Error! Extensions shouldn\'t match!';
-            array_push($errors, $error);
-            return false;
-        }
-
-        return true;
-    };
-
-    /**
-     * @param string $ext extension
-     * @return callable encoder
-     */
-    $getEncoder = function ($ext) {
-        switch ($ext) {
-            case 'ini':
-                return IniEncoder();
-            case 'yml':
-                return YmlEncoder();
-            case 'json':
-                return JsonEncoder();
-        }
-    };
-
-    /**
-    * @param string $ext extension
-    * @return callable decoder
-    */
-    $getDecoder = function ($ext) {
-        switch ($ext) {
-            case 'ini':
-                return IniDecoder();
-            case 'yml':
-                return YmlDecoder();
-            case 'json':
-                return JsonDecoder();
-        }
-    };
-
-    /**
-     * @param string $input path to the input file
-     * @param string $output path to the output file
-     * @return integer exit code
-     */
-    $convertFile = function () use ($getEncoder, $getDecoder, $getExtension, $input, $output) {
-        $inputFileContent = file_get_contents($input);
-        $decoder = $getDecoder($getExtension($input));
-        $arrayRepresentation = $decoder($inputFileContent);
-        $encoder = $getEncoder($getExtension($output));
-        $outputRepresentation = $encoder($arrayRepresentation);
-        file_put_contents($output, $outputRepresentation);
-    };
-
-    /**
-     * Makes validation and converts
-     */
-    $convert = function () use ($validate, $convertFile, $input, $output) {
-        if (!$validate()) {
-            return false;
-        }
-
-        $convertFile();
-
-        return true;
-    };
-
-    $converter = function ($action, ...$args) use ($convert, &$errors) {
-        switch ($action) {
-            case 'convert':
-                return $convert();
-
-            case 'getErrors':
-                return $errors;
-
-            default:
-                die("Whoops! Looks like there's no «{$action}» method.");
-        }
-    };
-
-    return $converter;
+    return Result\error("Unknown extension: «{$ext}». Allowed extensions are json, yaml (yml) and ini");
 }
 
 /**
- * @return boolean true if success
+ * @param string $input data to convert
+ * @param string $from format
+ * @param string $to format
+ * @return string result
  */
-function convert(callable $converter)
+function convert($input, $from, $to)
 {
-    return $converter('convert');
+    $decodingResult = decode($input, $from);
+    if (Result\isError($decodingResult)) {
+        return $decodingResult;
+    }
+    return encode(Result\getValue($decodingResult), $to);
 }
 
 /**
- * @return array of string errors
+ * @param string $ext extension
+ * @return callable encoder
  */
-function getErrors(callable $converter)
+function encode($array, $ext)
 {
-    return $converter('getErrors');
+    switch ($ext) {
+        case 'ini':
+            return Ini\encode($array);
+
+        case 'yaml':
+        case 'yml':
+            return Yaml\encode($array);
+
+        case 'json':
+            return Json\encode($array);
+        default:
+            return throwUnknownExtention($ext);
+    }
+}
+
+/**
+* @param string $ext extension
+* @return callable decoder
+*/
+function decode($content, $ext)
+{
+    switch ($ext) {
+        case 'ini':
+            return Ini\decode($content);
+
+        case 'yaml':
+        case 'yml':
+            return Yaml\decode($content);
+
+        case 'json':
+            return Json\decode($content);
+
+        default:
+            return throwUnknownExtention($ext);
+    }
 }

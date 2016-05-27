@@ -1,0 +1,2 @@
+users:
+    - { name: Joey, skills: [PHP, JS, 'Computer Science'] }

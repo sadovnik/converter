@@ -4,41 +4,22 @@
 /**
  * A cli tool that helps convert xml, json and yaml beetween each other
  */
-error_reporting(E_STRICT);
 
-define('ERROR_EXIT_CODE', 0);
-define('OK_EXIT_CODE', 1);
+require_once('./vendor/autoload.php');
 
-require('./vendor/autoload.php');
+define('NORMAL_EXIT_STATUS', 0);
+define('ERROR_EXIT_STATUS', 1);
 
-use function Converter\createConverter;
-use function Converter\convert;
-use function Converter\getErrors;
+use function Converter\ConvertAction\run;
+use Converter\Result;
 
-if(count($argv) !== 3) {
-    $errorMessage = 'Error!';
-    if(count($argv) == 2) {
-        $errorMessage .= ' Not enouth arguments.';
-    } elseif(count($argv) > 3) {
-        $errorMessage .= ' Too many arguments.';
-    }
-    echo $errorMessage . PHP_EOL;
-    echo 'Usage example:' . PHP_EOL;
-    echo '      convert from.yml to.json' . PHP_EOL;
-    printUsage();
-    exit(ERROR_EXIT_CODE);
-}
+$result = run(array_slice($argv, 1));
 
-list($scriptName, $input, $output) = $argv;
-
-$converter = createConverter($input, $output);
-
-if(!convert($converter)) {
+if (Result\isError($result)) {
     echo 'Error!' . PHP_EOL;
-    echo implode(PHP_EOL, getErrors($converter));
-    echo PHP_EOL;
-    exit(ERROR_EXIT_CODE);
+    echo Result\getMessage($result) . PHP_EOL;
+    exit(ERROR_EXIT_STATUS);
 }
 
 echo 'Done!' . PHP_EOL;
-exit(OK_EXIT_CODE);
+exit(NORMAL_EXIT_STATUS);

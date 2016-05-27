@@ -33,7 +33,8 @@ class ConvertActionTest extends \PHPUnit_Framework_TestCase
         $this->baseVfsPath = vfsStream::url($this->rootDirectory->path() . DIRECTORY_SEPARATOR);
     }
 
-    public function testRun() {
+    public function testRun()
+    {
         $fp = $this->baseFixturePath;
         $vp = $this->baseVfsPath;
 
@@ -57,7 +58,7 @@ class ConvertActionTest extends \PHPUnit_Framework_TestCase
             $result = runConvertAction($args);
             $this->assertEquals($isSuccess, Result\isSuccess($result));
             if (Result\isError($result)) {
-                if($args[0] === $vp . 'test.json') {
+                if ($args[0] === $vp . 'test.json') {
                     die(var_dump(Result\getMessage($result)));
                 }
                 $this->assertTrue(strpos(Result\getMessage($result), $countainsOutput) !== false);

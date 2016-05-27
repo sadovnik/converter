@@ -26,41 +26,18 @@ class ConvertActionTest extends \PHPUnit_Framework_TestCase
     /**
      * set up test environmemt
      */
-    protected function setThingsUp()
+    protected function setUp()
     {
         $this->rootDirectory = vfsStream::setup('root', 0777);
         $this->baseFixturePath = __DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR;
         $this->baseVfsPath = vfsStream::url($this->rootDirectory->path() . DIRECTORY_SEPARATOR);
     }
 
-    /**
-     * @dataProvider provider
-     */
-    public function testRun(
-        $args,
-        $isSuccess,
-        $countainsOutput,
-        $expecetedGeneratesFile
-    ) {
-        $result = runConvertAction($args);
-        $this->assertEquals($isSuccess, Result\isSuccess($result));
-        if (Result\isError($result)) {
-            $this->assertTrue(strpos(Result\getMessage($result), $countainsOutput) !== false);
-        } elseif (count($args) === 2) {
-            $fileName = pathinfo($args[1])['basename'];
-            $this->assertEquals($expecetedGeneratesFile, $this->rootDirectory->hasChild($fileName));
-        }
-    }
-
-    public function provider()
-    {
-        /* @see http://theaveragedev.com/phpunit-setup-loves-test-methods/ */
-        $this->setThingsUp();
+    public function testRun() {
         $fp = $this->baseFixturePath;
         $vp = $this->baseVfsPath;
-        $nonAccessibleFile = vfsStream::newFile($vp . 'test.json', 0000);
 
-        return [
+        $providerList = [
             // args, isSuccess, output, generates file
 
             // success
@@ -72,8 +49,22 @@ class ConvertActionTest extends \PHPUnit_Framework_TestCase
             // error
             [ [ $fp . 'nonexisting.json', $vp . 'test.yml' ], false, 'File not found', false ],
             [ [ $fp . '', $vp . 'test.yml' ], false, 'is not a file', false ],
-            [ [ $fp . '', $vp . 'test.yml' ], false, 'Permission denied', false ],
-            // [ [ $nonAccessibleFile, $vp . 'test.yml' ], false, 'Permission denied', false ],
+            // [ [ $file->path(), $vp . 'test.yml' ], false, 'Permission denied', false ],
         ];
+
+        foreach ($providerList as $providerItem) {
+            list($args, $isSuccess, $countainsOutput, $expecetedGeneratesFile) = $providerItem;
+            $result = runConvertAction($args);
+            $this->assertEquals($isSuccess, Result\isSuccess($result));
+            if (Result\isError($result)) {
+                if($args[0] === $vp . 'test.json') {
+                    die(var_dump(Result\getMessage($result)));
+                }
+                $this->assertTrue(strpos(Result\getMessage($result), $countainsOutput) !== false);
+            } elseif (count($args) === 2) {
+                $fileName = pathinfo($args[1])['basename'];
+                $this->assertEquals($expecetedGeneratesFile, $this->rootDirectory->hasChild($fileName));
+            }
+        }
     }
 }

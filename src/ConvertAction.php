@@ -30,29 +30,6 @@ EOL;
 }
 
 /**
- * Validates the paths provided by user
- * @param string $input path to the input file
- * @param string $output path to the output file
- */
-function validatePaths($inputPath, $outputPath)
-{
-    // if (!file_exists($inputPath)) {
-    //     throw new \Exception("File not found: $inputPath");
-    // }
-
-    foreach ([$inputPath, $outputPath] as $path) {
-        $ext = getExtension($path);
-        if (!in_array($ext, ['json', 'yml', 'yaml', 'ini'])) {
-            throw new \Exception("Unknown extension: «{$ext}». Allowed extensions are json, yaml (yml) and ini");
-        }
-    }
-
-    if (getExtension($inputPath) === getExtension($outputPath)) {
-        throw new \Exception('Extensions shouldn\'t match!');
-    }
-}
-
-/**
  * Convert action
  * @param array $args arguments passed from cli
  * @return callable result

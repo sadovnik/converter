@@ -20,15 +20,15 @@ function getExtension($path)
  */
 function readFile($path)
 {
-    if(!file_exists($path)) {
+    if (!file_exists($path)) {
         return Result\error("File not found: $path");
     }
 
-    if(!is_file($path)) {
+    if (!is_file($path)) {
         return Result\error("$path is not a file");
     }
 
-    if(!is_readable($path)) {
+    if (!is_readable($path)) {
         return Result\error('Permission denied');
     }
 
@@ -45,7 +45,7 @@ function readFile($path)
  */
 function writeFile($path, $content)
 {
-    if(!is_writable(dirname($path))) {
+    if (!is_writable(dirname($path))) {
         return Result\error("$path is not witable");
     }
 

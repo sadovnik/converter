@@ -15,7 +15,7 @@ function encode(array $array)
         return array_reduce(
             array_keys($array),
             function ($acc, $key) use ($array, $level, $reducer) {
-                if(isClosure($acc)) {
+                if (isClosure($acc)) {
                     return $acc;
                 }
                 if (is_array($array[$key])) {

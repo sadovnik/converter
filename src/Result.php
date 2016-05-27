@@ -9,7 +9,7 @@ namespace Converter\Result;
  */
 function success($value = null)
 {
-    return function($method) use ($value) {
+    return function ($method) use ($value) {
         switch ($method) {
             case 'getType':
                 return 'success';
@@ -27,7 +27,7 @@ function success($value = null)
  */
 function error($message = 'Unknown error')
 {
-    return function($method) use ($message) {
+    return function ($method) use ($message) {
         switch ($method) {
             case 'getType':
                 return 'error';

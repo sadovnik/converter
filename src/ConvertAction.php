@@ -38,14 +38,14 @@ function run($args)
 {
     $validationResult = validateArgs($args);
 
-    if(Result\isError($validationResult)) {
+    if (Result\isError($validationResult)) {
         return $validationResult;
     }
 
     list($inputPath, $outputPath) = $args;
 
     $content = readFile($inputPath);
-    if(Result\isError($content)) {
+    if (Result\isError($content)) {
         return $content;
     }
 
@@ -54,7 +54,7 @@ function run($args)
         getExtension($inputPath),
         getExtension($outputPath)
     );
-    if(Result\isError($convertedContent)) {
+    if (Result\isError($convertedContent)) {
         return $convertedContent;
     }
 

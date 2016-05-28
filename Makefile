@@ -9,3 +9,6 @@ test:
 
 lint:
 	composer exec 'phpcs --standard=PSR2 src tests'
+
+send-coverage:
+	composer exec test-reporter

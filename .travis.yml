@@ -7,3 +7,9 @@ install:
   - make install
 
 script: make test lint
+
+addons:
+  - code_climate
+
+after_script:
+  - make send-coverage

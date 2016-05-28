@@ -46,7 +46,7 @@ function readFile($path)
 function writeFile($path, $content)
 {
     if (!is_writable(dirname($path))) {
-        return Result\error("$path is not witable");
+        return Result\error("$path is not writable");
     }
 
     $result = file_put_contents($path, $content);

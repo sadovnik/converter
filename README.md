@@ -16,6 +16,5 @@ ln -s /opt/converter/bin/convert /usr/local/bin/convert # link the binary
 ## Usage example
 `convert from.json to.yml`
 
-## Requirments
+## Requirements
 - PHP 5.6+
-- [Yaml extention](http://php.net/manual/en/book.yaml.php)

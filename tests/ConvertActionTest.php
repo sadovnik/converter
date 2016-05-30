@@ -54,6 +54,8 @@ class ConvertActionTest extends \PHPUnit_Framework_TestCase
             [ [ ], false, 'Not enouth arguments', false ],
             [ [ 'foo' ], false, 'Not enouth arguments', false ],
             [ [ 'foo', 'bar', 'baz'], false, 'Too many arguments', false ],
+            [ [ $fp . 'unknown.format', $vp . 'test.ini' ], false, 'Unknown extension', false ],
+            [ [ $fp . 'fixture_1.json', $vp . 'unknown.format' ], false, 'Unknown extension', false ],
             // [ [ $file->path(), $vp . 'test.yml' ], false, 'Permission denied', false ],
         ];
 

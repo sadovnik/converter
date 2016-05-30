@@ -53,11 +53,3 @@ function writeFile($path, $content)
 
     return $result !== false ? Result\success($result) : Result\error("Couldn't write to $path");
 }
-
-/**
- * @return boolean whether is closure or not
- */
-function isClosure($value)
-{
-    return is_object($value) && ($value instanceof Closure);
-}

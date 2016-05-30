@@ -35,7 +35,8 @@ abstract class BaseIsomorphicCoderTest extends \PHPUnit_Framework_TestCase
             array_filter(
                 scandir(self::$baseFixturePath),
                 function ($path) {
-                    return pathinfo($path, PATHINFO_EXTENSION) === $this->format;
+                    return pathinfo($path, PATHINFO_EXTENSION) === $this->format
+                        && strpos(pathinfo($path, PATHINFO_FILENAME), 'bad') === false;
                 }
             )
         );

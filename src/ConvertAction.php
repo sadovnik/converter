@@ -19,7 +19,8 @@ function validateArgs($args)
         return Result\success();
     }
 
-    if ($argsCount == 1) {
+    $errorMessage = '';
+    if ($argsCount < 2) {
         $errorMessage = 'Not enouth arguments.';
     } elseif ($argsCount > 2) {
         $errorMessage = 'Too many arguments.';

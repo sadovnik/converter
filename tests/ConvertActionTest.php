@@ -50,6 +50,10 @@ class ConvertActionTest extends \PHPUnit_Framework_TestCase
             // error
             [ [ $fp . 'nonexisting.json', $vp . 'test.yml' ], false, 'File not found', false ],
             [ [ $fp . '', $vp . 'test.yml' ], false, 'is not a file', false ],
+            [ [ $fp . 'bad.json', $vp . 'test.yml' ], false, 'Couldn\'t decode json', false ],
+            [ [ ], false, 'Not enouth arguments', false ],
+            [ [ 'foo' ], false, 'Not enouth arguments', false ],
+            [ [ 'foo', 'bar', 'baz'], false, 'Too many arguments', false ],
             // [ [ $file->path(), $vp . 'test.yml' ], false, 'Permission denied', false ],
         ];
 
@@ -58,9 +62,6 @@ class ConvertActionTest extends \PHPUnit_Framework_TestCase
             $result = runConvertAction($args);
             $this->assertEquals($isSuccess, Result\isSuccess($result));
             if (Result\isError($result)) {
-                if ($args[0] === $vp . 'test.json') {
-                    die(var_dump(Result\getMessage($result)));
-                }
                 $this->assertTrue(strpos(Result\getMessage($result), $countainsOutput) !== false);
             } elseif (count($args) === 2) {
                 $fileName = pathinfo($args[1])['basename'];

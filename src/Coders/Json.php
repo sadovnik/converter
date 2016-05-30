@@ -6,7 +6,7 @@ use Converter\Result;
 
 /**
  * @param array $array
- * @return string
+ * @return callable either Result\success or Result\error instance
  */
 function encode(array $array)
 {
@@ -19,7 +19,7 @@ function encode(array $array)
 
 /**
  * @param string $json
- * @return array
+ * @return callable either Result\success or Result\error instance
  */
 function decode($json)
 {

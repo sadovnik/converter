@@ -39,6 +39,20 @@ function error($message = 'Unknown error')
 }
 
 /**
+ * @param callable $callback
+ * @param string $message
+ * @return callable result
+ */
+function tryCatch(callable $callback, $message = '')
+{
+    try {
+        return success($callback());
+    } catch (\Exception $e) {
+        return error($message . $e->getMessage());
+    }
+}
+
+/**
  * @param callable $result
  * @return string
  */

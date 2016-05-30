@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7a50bc1a40b589be73b3b8f857bb6bc4",
-    "content-hash": "938f2f7f510092f05a9449cc64dacf72",
+    "hash": "82e1b1309204b4e616c928a368ec263f",
+    "content-hash": "e6db5a33bc610c1ab63e09fde6c2c475",
     "packages": [
         {
             "name": "mikey179/vfsStream",
@@ -52,6 +52,39 @@
             "description": "Virtual file system to mock the real file system in unit tests.",
             "homepage": "http://vfs.bovigo.org/",
             "time": "2016-04-09 09:42:01"
+        },
+        {
+            "name": "piwik/ini",
+            "version": "1.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/piwik/component-ini.git",
+                "reference": "bd2711ba4d5e20e4ca09b6829dc2831576b59dc3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/piwik/component-ini/zipball/bd2711ba4d5e20e4ca09b6829dc2831576b59dc3",
+                "reference": "bd2711ba4d5e20e4ca09b6829dc2831576b59dc3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "athletic/athletic": "0.1.*",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Piwik\\Ini\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "time": "2016-01-14 21:13:33"
         },
         {
             "name": "symfony/yaml",

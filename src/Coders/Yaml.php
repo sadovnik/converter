@@ -11,7 +11,7 @@ use Converter\Result;
  */
 function encode(array $array)
 {
-    return Result\tryCatch(function() use ($array) {
+    return Result\tryCatch(function () use ($array) {
         return Yaml::dump($array);
     });
 }
@@ -22,7 +22,7 @@ function encode(array $array)
  */
 function decode($yaml)
 {
-    return Result\tryCatch(function() use ($yaml) {
+    return Result\tryCatch(function () use ($yaml) {
         return Yaml::parse($yaml);
     });
 }

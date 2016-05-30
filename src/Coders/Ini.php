@@ -12,7 +12,7 @@ use Piwik\Ini\IniWriter;
  */
 function encode(array $array)
 {
-    return Result\tryCatch(function() use ($array) {
+    return Result\tryCatch(function () use ($array) {
         return (new IniWriter)->writeToString($array);
     });
 }
@@ -23,7 +23,7 @@ function encode(array $array)
  */
 function decode($ini)
 {
-    return Result\tryCatch(function() use ($ini) {
+    return Result\tryCatch(function () use ($ini) {
         return (new IniReader)->readString($ini);
     });
 }

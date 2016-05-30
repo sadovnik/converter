@@ -1,6 +1,6 @@
 {
     "name": "codeskull/converter",
-    "bin": ["convert"],
+    "bin": ["bin/convert"],
     "type": "library",
     "require-dev": {
         "phpunit/phpunit": "~5.3",

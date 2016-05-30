@@ -13,20 +13,24 @@ use function Converter\Utils\writeFile;
  */
 function validateArgs($args)
 {
-    if (count($args) !== 2) {
-        if (count($args) == 1) {
-            $error = 'Not enouth arguments.';
-        } elseif (count($args) > 2) {
-            $error = 'Too many arguments.';
-        }
-        $usageExample = <<<EOL
-    Usage example:
-          convert from.yml to.json
-EOL;
-        $message = $error . PHP_EOL . $usageExample;
-        return Result\error($message);
+    $argsCount = count($args);
+
+    if ($argsCount === 2) {
+        return Result\success();
     }
-    return Result\success();
+
+    if ($argsCount == 1) {
+        $errorMessage = 'Not enouth arguments.';
+    } elseif ($argsCount > 2) {
+        $errorMessage = 'Too many arguments.';
+    }
+
+    $usageExample = <<<EOL
+Usage example:
+      convert from.yml to.json
+EOL;
+
+    return Result\error($errorMessage . PHP_EOL . $usageExample);
 }
 
 /**

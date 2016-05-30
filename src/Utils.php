@@ -10,7 +10,7 @@ use Converter\Result;
  */
 function getExtension($path)
 {
-    return strtolower(pathinfo($path)['extension']);
+    return strtolower(pathinfo($path, PATHINFO_EXTENSION));
 }
 
 /**

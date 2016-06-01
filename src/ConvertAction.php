@@ -5,8 +5,8 @@ namespace Converter\ConvertAction;
 use Converter\Result;
 use function Converter\convert;
 use function Converter\Utils\getExtension;
-use function Converter\Utils\readFile;
-use function Converter\Utils\writeFile;
+use function Converter\File\read;
+use function Converter\File\write;
 
 /**
  * @param array $args arguments passed from cli
@@ -49,7 +49,7 @@ function run($args)
 
     list($inputPath, $outputPath) = $args;
 
-    $content = readFile($inputPath);
+    $content = read($inputPath);
     if (Result\isError($content)) {
         return $content;
     }
@@ -63,5 +63,5 @@ function run($args)
         return $convertedContent;
     }
 
-    return writeFile($outputPath, Result\getValue($convertedContent));
+    return write($outputPath, Result\getValue($convertedContent));
 }

@@ -38,6 +38,8 @@ class ConvertActionTest extends \PHPUnit_Framework_TestCase
         $fp = $this->baseFixturePath;
         $vp = $this->baseVfsPath;
 
+        // $deniedFv = vfsStream::url(vfsStream::setup('deniedRoot', 0000)->path() . DIRECTORY_SEPARATOR);
+
         $providerList = [
             /**
              * Order of data:
@@ -73,8 +75,8 @@ class ConvertActionTest extends \PHPUnit_Framework_TestCase
             [ [ $fp . 'unknown.format', $vp . 'test.ini' ], false, 'Unknown extension', false ],
             [ [ $fp . 'fixture_1.json', $vp . 'unknown.format' ], false, 'Unknown extension', false ],
 
-            // Permission denied
-            // [ [ $file->path(), $vp . 'test.yml' ], false, 'Permission denied', false ],
+            // Permission problems
+            // [ [ $fp . 'fixture_1.json', $deniedFv . 'result.ini' ], false, 'Permission denied', false ],
         ];
 
         foreach ($providerList as $providerItem) {
@@ -84,7 +86,7 @@ class ConvertActionTest extends \PHPUnit_Framework_TestCase
             if (Result\isError($result)) {
                 $this->assertTrue(strpos(Result\getMessage($result), $countainsOutput) !== false);
             } elseif (count($args) === 2) {
-                $fileName = pathinfo($args[1])['basename'];
+                $fileName = pathinfo($args[1], PATHINFO_BASENAME);
                 $this->assertEquals($expecetedGeneratesFile, $this->rootDirectory->hasChild($fileName));
             }
         }

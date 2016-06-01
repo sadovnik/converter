@@ -25,6 +25,7 @@
             "src/ConvertAction.php",
             "src/Result.php",
             "src/Utils.php",
+            "src/File.php",
             "src/Coders/Ini.php",
             "src/Coders/Json.php",
             "src/Coders/Yaml.php"

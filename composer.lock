@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "82e1b1309204b4e616c928a368ec263f",
-    "content-hash": "e6db5a33bc610c1ab63e09fde6c2c475",
+    "hash": "334fb8a201d93f0db1ab6e119c87ebb5",
+    "content-hash": "08a288684ccbe8ff76451fabe57b0aac",
     "packages": [
         {
             "name": "mikey179/vfsStream",
@@ -85,6 +85,51 @@
                 "LGPL-3.0"
             ],
             "time": "2016-01-14 21:13:33"
+        },
+        {
+            "name": "pldin601/php-result",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pldin601/php-result.git",
+                "reference": "f20a558fc41f09fbb6388fb1c7e0ff34219a08d8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pldin601/php-result/zipball/f20a558fc41f09fbb6388fb1c7e0ff34219a08d8",
+                "reference": "f20a558fc41f09fbb6388fb1c7e0ff34219a08d8",
+                "shasum": ""
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "^0.3.2",
+                "phpunit/phpunit": "^5.3",
+                "squizlabs/php_codesniffer": "^2.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Tests\\": "tests/"
+                },
+                "files": [
+                    "src/result.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roman Gemini",
+                    "email": "roman_gemini@ukr.net"
+                },
+                {
+                    "name": "Cyril Sadovnik",
+                    "email": "cyril.sadovnik@gmail.com"
+                }
+            ],
+            "description": "Abstraction that represends ok/fail result primitives",
+            "time": "2016-06-02 06:30:38"
         },
         {
             "name": "symfony/yaml",

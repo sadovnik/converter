@@ -11,7 +11,6 @@ define('NORMAL_EXIT_STATUS', 0);
 define('ERROR_EXIT_STATUS', 1);
 
 use function Converter\FileConverter\convert;
-use Converter\Result;
 
 if(count($argv) !== 3) {
     $usageExample = <<<EOL
@@ -26,9 +25,9 @@ list($fileName, $source, $destination) = $argv;
 
 $result = convert($source, $destination);
 
-if (Result\isError($result)) {
+if (Result\isFail($result)) {
     echo 'Error!' . PHP_EOL;
-    echo Result\getMessage($result) . PHP_EOL;
+    echo Result\valueOf($result) . PHP_EOL;
     exit(ERROR_EXIT_STATUS);
 }
 

@@ -2,7 +2,7 @@
 
 namespace Converter\Coders\Ini;
 
-use Converter\Result;
+use Result;
 use Piwik\Ini\IniReader;
 use Piwik\Ini\IniWriter;
 

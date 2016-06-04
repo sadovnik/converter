@@ -2,11 +2,10 @@
 
 namespace Converter\FileConverter;
 
-use Converter\Result;
 use function Converter\convert;
 use function Converter\Utils\getExtension;
-use function Converter\File\read;
-use function Converter\File\write;
+use Converter\File;
+use Result;
 
 /**
  * Converts source file and writes it the destination path
@@ -16,19 +15,21 @@ use function Converter\File\write;
  */
 function convert($source, $destination)
 {
-    $content = read($source);
-    if (Result\isError($content)) {
-        return $content;
+    $sourceContent = File\read($source);
+
+    if (Result\isFail($sourceContent)) {
+        return $sourceContent;
     }
 
     $convertedContent = convert(
-        Result\getValue($content),
+        Result\valueOf($sourceContent),
         getExtension($source),
         getExtension($destination)
     );
-    if (Result\isError($convertedContent)) {
+
+    if (Result\isFail($convertedContent)) {
         return $convertedContent;
     }
 
-    return write($destination, Result\getValue($convertedContent));
+    return File\write($destination, Result\valueOf($convertedContent));
 }

@@ -2,7 +2,7 @@
 
 namespace Converter;
 
-use function Converter\Result\getValue;
+use Result;
 use Converter\Coders\Yaml;
 
 class YamlCoderTest extends BaseIsomorphicCoderTest
@@ -11,11 +11,11 @@ class YamlCoderTest extends BaseIsomorphicCoderTest
 
     public function decode($string)
     {
-        return getValue(Yaml\decode($string));
+        return Result\valueOf(Yaml\decode($string));
     }
 
     public function encode($array)
     {
-        return getValue(Yaml\encode($array));
+        return Result\valueOf(Yaml\encode($array));
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Converter;
 
-use Converter\Result;
+use Result;
 use Converter\Coders\Ini;
 use Converter\Coders\Json;
 use Converter\Coders\Yaml;
@@ -13,7 +13,7 @@ use function Converter\Utils\getExtension;
  */
 function throwUnknownExtention($ext)
 {
-    return Result\error("Unknown extension: «{$ext}». Allowed extensions are json, yaml (yml) and ini");
+    return Result\fail("Unknown extension: «{$ext}». Allowed extensions are json, yaml (yml) and ini");
 }
 
 /**
@@ -25,10 +25,12 @@ function throwUnknownExtention($ext)
 function convert($input, $from, $to)
 {
     $decodingResult = decode($input, $from);
-    if (Result\isError($decodingResult)) {
+
+    if (Result\isFail($decodingResult)) {
         return $decodingResult;
     }
-    return encode(Result\getValue($decodingResult), $to);
+
+    return encode(Result\valueOf($decodingResult), $to);
 }
 
 /**
@@ -47,6 +49,7 @@ function encode($array, $ext)
 
         case 'json':
             return Json\encode($array);
+
         default:
             return throwUnknownExtention($ext);
     }

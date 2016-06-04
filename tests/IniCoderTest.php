@@ -2,7 +2,7 @@
 
 namespace Converter;
 
-use function Converter\Result\getValue;
+use Result;
 use Converter\Coders\Ini;
 
 class IniCoderTest extends BaseIsomorphicCoderTest
@@ -11,11 +11,11 @@ class IniCoderTest extends BaseIsomorphicCoderTest
 
     public function decode($string)
     {
-        return getValue(Ini\decode($string));
+        return Result\valueOf(Ini\decode($string));
     }
 
     public function encode($array)
     {
-        return getValue(Ini\encode($array));
+        return Result\valueOf(Ini\encode($array));
     }
 }

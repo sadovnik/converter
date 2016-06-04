@@ -2,7 +2,7 @@
 
 namespace Converter\Tests;
 
-use Converter\Result;
+use Result;
 use function Converter\FileConverter\convert;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\visitor\vfsStreamStructureVisitor;
@@ -78,9 +78,9 @@ class FileConverterTest extends \PHPUnit_Framework_TestCase
         foreach ($providerList as $providerItem) {
             list($source, $destination, $isSuccess, $countainsOutput, $expecetedGeneratesFile) = $providerItem;
             $result = convert($source, $destination);
-            $this->assertEquals($isSuccess, Result\isSuccess($result));
-            if (Result\isError($result)) {
-                $this->assertTrue(strpos(Result\getMessage($result), $countainsOutput) !== false);
+            $this->assertEquals($isSuccess, Result\isOk($result));
+            if (Result\isFail($result)) {
+                $this->assertTrue(strpos(Result\valueOf($result), $countainsOutput) !== false);
             } else {
                 $fileName = pathinfo($destination, PATHINFO_BASENAME);
                 $this->assertEquals($expecetedGeneratesFile, $this->rootDirectory->hasChild($fileName));

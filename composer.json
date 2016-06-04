@@ -11,7 +11,8 @@
         "php": ">=5.6",
         "symfony/yaml": "^3.0",
         "mikey179/vfsStream": "^1.6",
-        "piwik/ini": "^1.0"
+        "piwik/ini": "^1.0",
+        "pldin601/php-result": "^1.0"
     },
     "authors": [
         {
@@ -23,7 +24,6 @@
         "files": [
             "src/Converter.php",
             "src/FileConverter.php",
-            "src/Result.php",
             "src/Utils.php",
             "src/File.php",
             "src/Coders/Ini.php",

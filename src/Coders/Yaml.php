@@ -3,11 +3,11 @@
 namespace Converter\Coders\Yaml;
 
 use Symfony\Component\Yaml\Yaml;
-use Converter\Result;
+use Result;
 
 /**
  * @param array $array
- * @return callable either Result\success or Result\error instance
+ * @return callable
  */
 function encode(array $array)
 {
@@ -18,7 +18,7 @@ function encode(array $array)
 
 /**
  * @param string $yaml
- * @return callable either Result\success or Result\error instance
+ * @return callable
  */
 function decode($yaml)
 {

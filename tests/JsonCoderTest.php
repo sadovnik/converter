@@ -2,8 +2,8 @@
 
 namespace Converter;
 
+use Result;
 use Converter\Coders\Json;
-use function Converter\Result\getValue;
 
 class JsonCoderTest extends BaseIsomorphicCoderTest
 {
@@ -11,11 +11,11 @@ class JsonCoderTest extends BaseIsomorphicCoderTest
 
     public function decode($string)
     {
-        return getValue(Json\decode($string));
+        return Result\valueOf(Json\decode($string));
     }
 
     public function encode($array)
     {
-        return getValue(Json\encode($array));
+        return Result\valueOf(Json\encode($array));
     }
 }

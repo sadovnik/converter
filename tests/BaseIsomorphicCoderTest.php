@@ -1,6 +1,6 @@
 <?php
 
-namespace Converter;
+namespace Converter\Tests;
 
 abstract class BaseIsomorphicCoderTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Converter;
+namespace Converter\Tests;
 
 use Result;
 use Converter\Coders\Yaml;

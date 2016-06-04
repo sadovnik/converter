@@ -67,8 +67,8 @@ class ConvertActionTest extends \PHPUnit_Framework_TestCase
             [ [ $fp . 'bad.json', $vp . 'test.yml' ], false, 'Couldn\'t decode json', false ],
 
             // Wrong usage
-            [ [ ], false, 'Not enouth arguments', false ],
-            [ [ 'foo' ], false, 'Not enouth arguments', false ],
+            [ [ ], false, 'Not enough arguments', false ],
+            [ [ 'foo' ], false, 'Not enough arguments', false ],
             [ [ 'foo', 'bar', 'baz'], false, 'Too many arguments', false ],
 
             // Unknown format

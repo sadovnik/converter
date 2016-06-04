@@ -5,7 +5,7 @@
  * A cli tool that helps convert xml, json and yaml beetween each other
  */
 
-require_once('./vendor/autoload.php');
+require_once(__DIR__ . '/../vendor/autoload.php');
 
 define('NORMAL_EXIT_STATUS', 0);
 define('ERROR_EXIT_STATUS', 1);

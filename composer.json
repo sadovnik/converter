@@ -22,7 +22,7 @@
     "autoload": {
         "files": [
             "src/Converter.php",
-            "src/ConvertAction.php",
+            "src/FileConverter.php",
             "src/Result.php",
             "src/Utils.php",
             "src/File.php",

@@ -10,10 +10,21 @@ require_once(__DIR__ . '/../vendor/autoload.php');
 define('NORMAL_EXIT_STATUS', 0);
 define('ERROR_EXIT_STATUS', 1);
 
-use function Converter\ConvertAction\run;
+use function Converter\FileConverter\convert;
 use Converter\Result;
 
-$result = run(array_slice($argv, 1));
+if(count($argv) !== 3) {
+    $usageExample = <<<EOL
+Usage example:
+    convert from.yml to.json
+EOL;
+    fwrite(STDERR, $usageExample);
+    exit(ERROR_EXIT_STATUS);
+}
+
+list($fileName, $source, $destination) = $argv;
+
+$result = convert($source, $destination);
 
 if (Result\isError($result)) {
     echo 'Error!' . PHP_EOL;

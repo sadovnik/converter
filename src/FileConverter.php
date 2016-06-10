@@ -15,21 +15,23 @@ use Result;
  */
 function convert($source, $destination)
 {
-    $sourceContent = File\read($source);
+    $read = function($input) use ($source) {
+        return File\read($source);
+    };
 
-    if (Result\isFail($sourceContent)) {
-        return $sourceContent;
-    }
+    $convert = function($input) use ($source, $destination) {
+        return convert(
+            $input,
+            getExtension($source),
+            getExtension($destination)
+        );
+    };
 
-    $convertedContent = convert(
-        Result\valueOf($sourceContent),
-        getExtension($source),
-        getExtension($destination)
-    );
+    $write = function($input) use ($destination) {
+        return File\write($destination, $input);
+    };
 
-    if (Result\isFail($convertedContent)) {
-        return $convertedContent;
-    }
+    $pipeline = Result\pipeline($read, $convert, $write);
 
-    return File\write($destination, Result\valueOf($convertedContent));
+    return Result\getOrThrow($pipeline);
 }

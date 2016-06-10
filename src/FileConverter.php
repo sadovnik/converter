@@ -15,11 +15,11 @@ use Result;
  */
 function convert($source, $destination)
 {
-    $read = function($input) use ($source) {
+    $read = function ($input) use ($source) {
         return File\read($source);
     };
 
-    $convert = function($input) use ($source, $destination) {
+    $convert = function ($input) use ($source, $destination) {
         return convert(
             $input,
             getExtension($source),
@@ -27,7 +27,7 @@ function convert($source, $destination)
         );
     };
 
-    $write = function($input) use ($destination) {
+    $write = function ($input) use ($destination) {
         return File\write($destination, $input);
     };
 

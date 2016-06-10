@@ -11,9 +11,6 @@ use Result;
 function encode(array $array)
 {
     $result = json_encode($array, JSON_PRETTY_PRINT);
-    if ($result === null) {
-        return Result\fail('Couldn\'t encode json: ' . json_last_error_msg());
-    }
     return Result\ok($result);
 }
 

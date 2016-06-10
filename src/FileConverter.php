@@ -33,5 +33,5 @@ function convert($source, $destination)
 
     $pipeline = Result\pipeline($read, $convert, $write);
 
-    return Result\getOrThrow($pipeline);
+    Result\getOrThrow($pipeline());
 }

@@ -3,7 +3,7 @@
 namespace Converter\Tests;
 
 use Result;
-use function Converter\FileConverter\convert;
+use Converter\FileConverter;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\visitor\vfsStreamStructureVisitor;
 
@@ -34,57 +34,20 @@ class FileConverterTest extends \PHPUnit_Framework_TestCase
         $this->baseVfsPath = vfsStream::url($this->rootDirectory->path() . DIRECTORY_SEPARATOR);
     }
 
-    public function test()
+    public function testNormalFlow()
     {
-        $fp = $this->baseFixturePath;
-        $vp = $this->baseVfsPath;
+        $source = $this->baseFixturePath . 'fixture_1.json';
+        $dest = $this->baseVfsPath . 'result.yml';
+        FileConverter\convert($source, $dest);
+    }
 
-        // $deniedFv = vfsStream::url(vfsStream::setup('deniedRoot', 0000)->path() . DIRECTORY_SEPARATOR);
-
-        $providerList = [
-            /**
-             * Order of data:
-             * source, destination, isSuccess, output, generates file
-             */
-
-            /**
-             * Success cases:
-             */
-            [ $fp . 'fixture_1.json', $vp . 'result_1.yml', true, null, true ],
-            [ $fp . 'fixture_1.json', $vp . 'result_2.yaml', true, null, true ],
-            [ $fp . 'fixture_1.json', $vp . 'result_3.ini', true, null, true ],
-            [ $fp . 'fixture_1.json', $vp . 'result_4.json', true, null, true ],
-
-            /**
-             * Error cases
-             */
-            // File not found
-            [ $fp . 'nonexisting.json', $vp . 'test.yml', false, 'File not found', false ],
-
-            // Not a file
-            [ $fp . '', $vp . 'test.yml', false, 'is not a file', false ],
-
-            // Corrupted input file
-            [ $fp . 'bad.json', $vp . 'test.yml', false, 'Couldn\'t decode json', false ],
-
-            // Unknown format
-            [ $fp . 'unknown.format', $vp . 'test.ini', false, 'Unknown extension', false ],
-            [ $fp . 'fixture_1.json', $vp . 'unknown.format', false, 'Unknown extension', false ],
-
-            // Permission problems
-            // [ $fp . 'fixture_1.json', $deniedFv . 'result.ini', false, 'Permission denied', false ],
-        ];
-
-        foreach ($providerList as $providerItem) {
-            list($source, $destination, $isSuccess, $countainsOutput, $expecetedGeneratesFile) = $providerItem;
-            $result = convert($source, $destination);
-            $this->assertEquals($isSuccess, Result\isOk($result));
-            if (Result\isFail($result)) {
-                $this->assertTrue(strpos(Result\valueOf($result), $countainsOutput) !== false);
-            } else {
-                $fileName = pathinfo($destination, PATHINFO_BASENAME);
-                $this->assertEquals($expecetedGeneratesFile, $this->rootDirectory->hasChild($fileName));
-            }
-        }
+    /**
+     * @expectedException Exception
+     */
+    public function testFailFlow()
+    {
+        $source = $this->baseFixturePath . 'fixture_1.json';
+        $dest = $this->baseVfsPath . 'result.unknown';
+        FileConverter\convert($source, $dest);
     }
 }

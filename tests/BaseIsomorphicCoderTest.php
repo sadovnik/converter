@@ -14,7 +14,7 @@ abstract class BaseIsomorphicCoderTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider provider
      */
-    public function test($input)
+    public function testNormal($input)
     {
         $this->assertEquals($input, $this->encode($this->decode($input)));
     }

@@ -18,4 +18,11 @@ class JsonCoderTest extends BaseIsomorphicCoderTest
     {
         return Result\valueOf(Json\encode($array));
     }
+
+    public function testFailDecode()
+    {
+        $corruptedJson = '{"foo": bar"}';
+        $result = Json\decode($corruptedJson);
+        $this->assertTrue(Result\isFail($result));
+    }
 }
